@@ -20,6 +20,12 @@
         </tr>
     </thead>
     <tbody>
+        @if (Model == null)
+        {
+            <tr><td>No Images Found</td></tr>
+        }
+        else 
+        {
         @foreach (var item in Model)
         {
             <tr>
@@ -36,6 +42,7 @@
                     <a asp-action="Delete" asp-route-id="@item.ImageId">Delete</a>
                 </td>
             </tr>
+        }
         }
     </tbody>
 </table>
