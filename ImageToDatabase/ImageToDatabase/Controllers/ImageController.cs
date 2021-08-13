@@ -26,7 +26,8 @@ namespace ImageToDatabase.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Image.ToListAsync());
+            List<Image> listOfImages = null; //await _context.Image.ToListAsync();
+            return View(listOfImages);
         }
 
         // GET: Images/Details/5
@@ -66,9 +67,7 @@ namespace ImageToDatabase.Controllers
 
             {
                 if (images.Length > 0)
-
                 //Convert Image to byte and save to database
-
                 {
 
                     byte[] p1 = null;

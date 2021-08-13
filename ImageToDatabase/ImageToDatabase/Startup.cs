@@ -2,6 +2,7 @@ using ImageToDatabase.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,11 +32,22 @@ namespace ImageToDatabase
 
             services.AddDbContext<ImageToDatabaseContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ImageToDatabaseContext")));
+
+
+            services.Configure<RazorViewEngineOptions>(o =>
+            {
+                o.ViewLocationFormats.Clear();
+                o.ViewLocationFormats.Add
+        ("/Pages/{1}/{0}" + RazorViewEngine.ViewExtension);
+                o.ViewLocationFormats.Add
+        ("/Pages/Shared/{0}" + RazorViewEngine.ViewExtension);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -52,11 +64,12 @@ namespace ImageToDatabase
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
 
             app.UseStaticFiles();
